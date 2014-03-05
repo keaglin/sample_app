@@ -18,6 +18,3 @@ doc/
 .DS_Store
 .idea
 .secret
-
-# Ignore database files
-database.yml
