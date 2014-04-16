@@ -46,6 +46,23 @@ describe "Authentication" do
 
   end # End of Sign in Tests
 
-  
+  describe "authorization" do
+    describe "for non-signed-in users" do
+      let(:user) { FactoryGirl.create(:user) }
+
+      describe "in the Users controller" do
+
+        describe "visiting the edit page" do
+          before { visit edit_user_path(user) }
+          it { should have_title('Sign in') } 
+        end # End of Authen->author->nonsignedin->User controller->visiting edit
+        
+        describe "submitting to the update action" do
+          before { patch user_path(user) }
+          specify { expect(response).to redirect_to(signin_path) }
+        end # End of submitting update
+      end # End of Authen->author->nonsignedin->Users controller
+    end # End of Authentication->authorization->for non-signed-in users
+  end # End of Authentication->authorization
 
 end # End of Authentication Tests
