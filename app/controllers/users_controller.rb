@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
-before_action :signed_in_user, only: [:index, :edit, :update, :destroy]
-before_action :correct_user,   only: [:edit, :update]
-before_action :admin_user,     only: :destroy
+before_action :signed_in_user,     only: [:index, :edit, :update, :destroy]
+before_action :correct_user,       only: [:edit, :update]
+before_action :admin_user,         only: :destroy
+before_action :signed_in_redirect, only: [:new, :create]
 
   def destroy
     User.find(params[:id]).destroy
@@ -12,7 +13,7 @@ before_action :admin_user,     only: :destroy
   def index
     @users = User.paginate(page: params[:page])
   end
-  
+
   def new
   	@user = User.new
   end
@@ -20,7 +21,7 @@ before_action :admin_user,     only: :destroy
   def show
   	@user = User.find(params[:id])
   end
-  
+
   def create
       @user = User.new(user_params)
       if @user.save
@@ -31,7 +32,7 @@ before_action :admin_user,     only: :destroy
         render 'new'
       end
     end
-  
+
   def edit
   end
 
@@ -49,12 +50,13 @@ before_action :admin_user,     only: :destroy
 
     def user_params
       params.require(:user).permit(:name, :email, :password,
-                                   :password_confirmation)
+                                   :password_confirmation, :admin)
     end
 
     # Before filters
 
     def signed_in_user
+      puts current_user
       unless signed_in?
         store_location
         redirect_to signin_url, notice: "Please sign in."
@@ -68,6 +70,10 @@ before_action :admin_user,     only: :destroy
 
     def admin_user
       redirect_to(root_url) unless current_user.admin?
+    end
+
+    def signed_in_redirect
+      redirect_to root_url, note: "Already signed in" if signed_in?
     end
 
 end

@@ -6,6 +6,7 @@ include ApplicationHelper
 	    remember_token = User.new_remember_token
 	    cookies[:remember_token] = remember_token
 	    user.update_attribute(:remember_token, User.hash(remember_token))
+			puts user
 	  else
 	    visit signin_path
 	    fill_in "Email",    with: user.email
@@ -25,5 +26,5 @@ include ApplicationHelper
 	    expect(page).to have_selector('div.alert.alert-error', text: message)
 	  end
 
-	
+
 end

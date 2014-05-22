@@ -42,7 +42,7 @@ describe "Authentication" do
         before { click_link "Sign out" }
         it { should have_link('Sign in') }
       end
-      
+
   	end # End of valid Sign in Tests
 
   end # End of Sign in Tests
@@ -68,9 +68,9 @@ describe "Authentication" do
 
         describe "visiting the edit page" do
           before { visit edit_user_path(user) }
-          it { should have_title('Sign in') } 
+          it { should have_title('Sign in') }
         end # End of Authen->author->nonsignedin->User controller->visiting edit
-        
+
         describe "submitting to the update action" do
           before { patch user_path(user) }
           specify { expect(response).to redirect_to(signin_path) }
@@ -96,7 +96,7 @@ describe "Authentication" do
         end
       end
     end # End of Authentication->authorization->for non-signed-in users
-    
+
     describe "as wrong user" do
       let(:user) { FactoryGirl.create(:user) }
       let(:wrong_user) { FactoryGirl.create(:user, email: "wrong@example.com") }
